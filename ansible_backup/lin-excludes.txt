@@ -1,0 +1,6 @@
+/etc/shadow*
+*cache*
+/etc/security/opasswd
+/etc/gshadow*
+test*.fil
+/etc/security/*

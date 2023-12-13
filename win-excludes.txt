@@ -1,0 +1,7 @@
+*[cC]ache*
+*.lock
+UsrClass*
+*.tmp
+MicrosoftEdge*
+WindowsCalculator
+UnistoreDB

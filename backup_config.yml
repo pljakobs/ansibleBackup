@@ -1,0 +1,29 @@
+---
+hosts:
+- name: fhem2
+  address: 192.168.29.5 # either from dns or facts or manual
+  OS: Linux         # from facts?
+  user: root
+  key:              # ssh key to use
+  wake_on_lan: true # wishlist item. Ideally even configurable for the different snapshot levels like "daily", "weekly" 
+                    # meaning: this node would be woken up at least once a day / a week
+  volumes:
+  - name: home
+    path: "/home/pjakobs"
+    sudo: 'false'
+  - name: etc
+    path: "/etc"
+    sudo: 'true'
+- name: bigbox
+  address: 192.168.29.15
+  OS: Linux
+  volumes:
+  - name: home
+    path: "/home/pjakobs"
+    sudo: false
+  - name: media
+    path: /home/media
+    sudo: false
+  - name: etc
+    path: /etc
+    sudo: true

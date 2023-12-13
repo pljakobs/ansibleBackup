@@ -1,0 +1,4 @@
+#!/bin/bash
+rsyncOptions="-rao --chown=pjakobs:users --delete-after --ignore-errors"
+sshOptionsLin=""
+sshOptionsWin=""

@@ -1,0 +1,47 @@
+---
+- hosts: all
+  gather_facts: true
+  vars:
+    backup_base: "/home/wideawake/ansible_backup/backup/"
+
+  tasks:
+    - name: Ensure rsync is installed on Red Hat/CentOS
+      ansible.builtin.yum:
+        name: rsync
+        state: present
+      become: true
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat' or ansible_distribution == 'Fedora'
+
+    - name: Allow ansible_user_id to run rsync without password
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers
+        line: "{{ ansible_user_id }} ALL=(ALL) NOPASSWD: /usr/bin/rsync"
+        validate: 'visudo -cf %s'
+      become: true
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat' or ansible_distribution == 'Fedora'
+      notify:
+        - Restart SSH service
+
+    - name: Create backup directories
+      ansible.builtin.file:
+        path: "{{ backup_base }}{{ inventory_hostname }}"
+        state: directory
+      delegate_to: localhost
+
+    - name: Perform backups
+      ansible.builtin.synchronize:
+        src: "{{ item }}"
+        dest: "{{ backup_base }}{{ inventory_hostname }}"
+        mode: pull
+        rsync_path: "sudo rsync"
+        #rsync_opts: "-R {{ rsync_options | default(omit) }}"
+        rsync_opts: "-R {{ rsync_options | default('--exclude-from lin-excludes.txt') }}"
+      with_items: "{{ src_paths }}"
+      delegate_to: localhost
+
+  handlers:
+    - name: Restart SSH service
+      ansible.builtin.service:
+        name: sshd
+        state: restarted
+      become: true

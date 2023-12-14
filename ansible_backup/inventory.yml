@@ -1,0 +1,45 @@
+all:
+  hosts:
+    fhem2:
+      #ansible_host: <replace-with-ip-address-if-no-dns>
+      src_paths:
+        - "/etc"
+        - "/opt/docker"
+        - "/opt/fhem"
+    labpc:
+      #ansible_host: <replace-with-ip-address-if-no-dns>
+      src_paths:
+        - "/etc"
+        - "/home/pjakobs"
+    fotopc:
+      #ansible_host: <replace-with-ip-address-if-no-dns>
+      rsync_options: "--exclude-from win-excludes.txt"
+      src_paths:
+        - "/cygdrive/c/Users/cn-0f27dt-f1167-1bi-"
+        - "/cygdrive/d"
+        - "/cygdrive/e"
+    nasbox:
+      #ansible_host: <replace-with-ip-address-if-no-dns>
+      src_paths:
+        - "/etc"
+        - "/usr/local/bin"
+        - "/home/pjakobs"
+    bigbox:
+      #ansible_host: <replace-with-ip-address-if-no-dns>
+      src_paths:
+        - "/etc"
+        - "/home/pjakobs"
+        - "/home/media"
+    ThinkPad:
+      #ansible_host: <replace-with-ip-address-if-no-dns>
+      src_paths:
+        - "/home/pjakobs"
+    T460:
+      #ansible_host: <replace-with-ip-address-if-no-dns>
+      src_paths:
+        - "/home/pjakobs"
+    devbox:
+      #ansible_host: <replace-with-ip-address-if-no-dns>
+      src_paths:
+        - "/home/pjakobs"
+        - "/opt/sming"
